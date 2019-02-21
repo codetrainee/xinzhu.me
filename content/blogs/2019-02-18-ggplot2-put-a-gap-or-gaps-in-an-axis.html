@@ -76,9 +76,9 @@ df &lt;- bind_rows(df_lower, df)
 my_min = function(y) ifelse(y &lt;= breaks[1], 0, breaks[2])
 
 p &lt;- ggplot(df, aes(x, y)) +
-    ## geom_rect replaces the barchart (impossible to insert a gap in y axis).   
+    ## geom_rect replaces the barchart (impossible to insert a gap in y axis).
     geom_rect(aes(xmin = x - .4, xmax = x + .4, ymin = my_min(y), ymax = y)) +
-    facet_grid(.type ~ ., scales = &quot;free&quot;) + 
+    facet_grid(.type ~ ., scales = &quot;free&quot;) +
     theme(strip.text=element_blank())
 p</code></pre>
 <p><img src="/blogs/2019-02-18-ggplot2-put-a-gap-or-gaps-in-an-axis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>

@@ -27,3 +27,38 @@
     box-shadow: -1px -2px 3px rgba(0, 0, 0, .2);
     background-color:  rgba(59,62,72, .95);
   }
+
+pre,
+code,
+pre tt {
+  font-family: $code-fonts;
+}
+
+pre {
+  padding: 0.7em 1.1em;
+  overflow: auto;
+  font-size: .9em;
+  line-height: 1.5;
+  letter-spacing: normal;
+  white-space: pre;
+  color: #eee;
+  background: $midnightblue;
+  border-radius: 4px;
+  // -webkit-overflow-scrolling: touch;
+
+  code {
+    padding: 0;
+    margin: 0;
+    background: $midnightblue;
+  }
+}
+
+code {
+  color: #bdb9a9;
+  background: $highlight-grey;
+  border-radius: 3px;
+  padding: 0 3px;
+  margin: 0 4px;
+  word-wrap: break-word;
+  letter-spacing: normal;
+}
