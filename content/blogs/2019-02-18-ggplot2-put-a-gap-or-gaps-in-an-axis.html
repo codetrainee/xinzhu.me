@@ -1,0 +1,90 @@
+---
+title: ggplot2 - put a gap (or gaps) in an axis
+author: Xin 💓 Zhu
+date: '2019-02-18'
+slug: inserting gaps in an axis in ggplot2
+categories:
+  - programming
+tags:
+  - ggplot2
+  - R
+  - Rmarkdown
+draft: false
+bibliography:
+  - miscellaneous.bib
+link-citations: true
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#prerequisite">Prerequisite</a></li>
+<li><a href="#data-preparation">Data preparation</a></li>
+<li><a href="#data-wrangling">Data wrangling</a></li>
+</ul>
+</div>
+
+<div id="prerequisite" class="section level2">
+<h2>Prerequisite</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.5.2</code></pre>
+</div>
+<div id="data-preparation" class="section level2">
+<h2>Data preparation</h2>
+<pre class="r"><code>set.seed(2019-02-18)
+df &lt;- data.frame(
+    x = 1:20,
+    y = c(rnorm(5) + 4, rnorm(5) + 20, rnorm(5) + 5, rnorm(5) + 22)
+)
+
+## Generate the raw plots with a continuous y axis
+ggplot(df, aes(x, y)) + geom_col()</code></pre>
+<p><img src="/blogs/2019-02-18-ggplot2-put-a-gap-or-gaps-in-an-axis_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="data-wrangling" class="section level2">
+<h2>Data wrangling</h2>
+<p>The idea to put a gap in y axis is to split the dataframe into two parts. The first part contains the values below the break while the second above the upper limit of the break. Facet is an implementation in ggplot2 to arrange the subsets of data together <span class="citation">(余光创 <a href="#ref-yuguangchuang-ggplot2-ninja">2019</a>)</span>.</p>
+<pre class="r"><code>## set a break vector
+breaks = c(7, 17)
+
+## split the data based on the lower and upper limit of the breaks.
+df &lt;-
+  df %&gt;%
+  mutate(.type = case_when(y &lt; breaks[1] ~ &quot;small&quot;,
+                           y &gt; breaks[2] ~ &quot;big&quot;))
+
+## modify the values above the upper limit and create a subset that
+## fits in the bottom panel of plots.
+df_lower &lt;-
+  df %&gt;%
+  filter(.type == &quot;big&quot;) %&gt;%
+  mutate(.type = &quot;small&quot;,
+         y = breaks[1])
+
+## combine the two subsets
+df &lt;- bind_rows(df_lower, df)
+
+## customise a function for determing the minimal value used in
+## the plot: if y is less than the lower limit of the breaks,
+## set the minimu to 0; else utilise the upper limit of the breaks.
+my_min = function(y) ifelse(y &lt;= breaks[1], 0, breaks[2])
+
+p &lt;- ggplot(df, aes(x, y)) +
+    ## geom_rect replaces the barchart (impossible to insert a gap in y axis).   
+    geom_rect(aes(xmin = x - .4, xmax = x + .4, ymin = my_min(y), ymax = y)) +
+    facet_grid(.type ~ ., scales = &quot;free&quot;) + 
+    theme(strip.text=element_blank())
+p</code></pre>
+<p><img src="/blogs/2019-02-18-ggplot2-put-a-gap-or-gaps-in-an-axis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div id="refs" class="references">
+<div id="ref-yuguangchuang-ggplot2-ninja">
+<p>余光创. 2019. “Ggplot2忍者秘笈 - Chapter 2 不一样的分面.” <em>Github Page</em>. <a href="https://yulab-smu.github.io/ggplot2-ninja/chapter-facet.html#section-3">https://yulab-smu.github.io/ggplot2-ninja/chapter-facet.html#section-3</a>.</p>
+</div>
+</div>
+</div>

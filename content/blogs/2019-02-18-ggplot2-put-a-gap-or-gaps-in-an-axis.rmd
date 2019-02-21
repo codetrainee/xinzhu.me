@@ -1,0 +1,74 @@
+---
+title: ggplot2 - put a gap (or gaps) in an axis
+author: Xin 💓 Zhu
+date: '2019-02-18'
+slug: inserting gaps in an axis in ggplot2
+categories:
+  - programming
+tags:
+  - ggplot2
+  - R
+  - Rmarkdown
+draft: false
+bibliography:
+  - miscellaneous.bib
+link-citations: true
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Prerequisite
+```{r message=FALSE}
+library(tidyverse)
+```
+
+## Data preparation
+```{r}
+set.seed(2019-02-18)
+df <- data.frame(
+    x = 1:20,
+    y = c(rnorm(5) + 4, rnorm(5) + 20, rnorm(5) + 5, rnorm(5) + 22)
+)
+
+## Generate the raw plots with a continuous y axis
+ggplot(df, aes(x, y)) + geom_col()
+```
+
+## Data wrangling
+
+The idea to put a gap in y axis is to split the dataframe into two parts. The first part contains the values below the break while the second above the upper limit of the break. Facet is an implementation in ggplot2 to arrange the subsets of data together [@yuguangchuang-ggplot2-ninja].
+```{r}
+## set a break vector
+breaks = c(7, 17)
+
+## split the data based on the lower and upper limit of the breaks.
+df <-
+  df %>%
+  mutate(.type = case_when(y < breaks[1] ~ "small",
+                           y > breaks[2] ~ "big"))
+
+## modify the values above the upper limit and create a subset that
+## fits in the bottom panel of plots.
+df_lower <-
+  df %>%
+  filter(.type == "big") %>%
+  mutate(.type = "small",
+         y = breaks[1])
+
+## combine the two subsets
+df <- bind_rows(df_lower, df)
+
+## customise a function for determing the minimal value used in
+## the plot: if y is less than the lower limit of the breaks,
+## set the minimu to 0; else utilise the upper limit of the breaks.
+my_min = function(y) ifelse(y <= breaks[1], 0, breaks[2])
+
+p <- ggplot(df, aes(x, y)) +
+    ## geom_rect replaces the barchart (impossible to insert a gap in y axis).
+    geom_rect(aes(xmin = x - .4, xmax = x + .4, ymin = my_min(y), ymax = y)) +
+    facet_grid(.type ~ ., scales = "free") +
+    theme(strip.text=element_blank())
+p
+```
+
