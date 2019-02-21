@@ -19,7 +19,7 @@ output:
 ---
 
 ## Prerequisite
-```{r message=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 ```
 
