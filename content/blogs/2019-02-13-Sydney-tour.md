@@ -8,8 +8,6 @@ categories:
 tags:
   - Australia
   - Sydney
-images:
-  - https://8ncgeg.ch.files.1drv.com/y4m5K1WSInTTZIjQLoiwTaCdfpiko0JeTTdKoRum1xT3cQHQo4inr1tUC2hoSYPWd3tmM8SsXWsMOKYfe6Gu59Yz33z7CWXbxhcz-dFFqnYYbABu0Uyj4kD2zJU5oJgnPdbKs1N9qtXZu6uhi4LFayigmb-66JmIiuhxoxVjegTeRI9Iz2tmnh6UHGKaQLKz3xJ?width=1920&height=1080&cropmode=none
 draft: false
 toc: true
 ---

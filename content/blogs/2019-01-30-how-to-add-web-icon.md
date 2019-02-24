@@ -8,8 +8,6 @@ categories:
 tags:
   - code
   - html
-images:
-  - https://eldakg.ch.files.1drv.com/y4mPNXOqljKyVvs7f3soInOf_7I3sY-31sRjVo7iETSHsARMzvBAMz8U3iibnHkfSSNVKMztrvdGfDU29RmmV-oyMu4lcbbxibpb_IHQjIfD1YpcLf4ZY1niquLCNQej8Wbx4yvAk7vYD37zE7rI7zq7h-iM8WE5cOUJcckExSZtx68JVRX6cXUlhq75H-jVFQf?width=2810&height=562&cropmode=none
 draft: false
 toc: true
 ---

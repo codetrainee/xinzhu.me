@@ -8,8 +8,6 @@ categories:
 tags:
   - css
   - code
-images:
-  - https://vfzf1w.ch.files.1drv.com/y4mogY-uJluM7OlPKwQ3ASwDC3UF3gV5qbIiB6-277Gt_TSkXvi9BHtko0g1jvVlSPvLFZ8omTrUakd_o9hyerIyArQPQW2CX9Cc1_FXm14GdR7DuRJsvT2RkjNzI4xKYJ-CJISkF6MtDjRSJj_ZLC3SWqPNnRRZpwSSZSc2PQmwjLvGALHlFCiqgSXZ-ndRNR8?width=701&height=342&cropmode=none
 draft: false
 toc: true
 ---

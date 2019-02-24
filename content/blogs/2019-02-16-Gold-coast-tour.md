@@ -8,8 +8,6 @@ categories:
 tags:
   - Australia
   - Gold coast
-images:
-  - https://jrrpvw.ch.files.1drv.com/y4mpk616m4b_Cw-SFCwKhBAd-J9P5EVqKiiuZ3Re7yVZVucf0b0alH1Bw_pUHjuH3CFPFFWAUARaUO8O7eRBRv5sK8cEdn54PZFoOAOMQ4MwFfaKG0d8IHtdEfLMnkacyf42WJR-twvO79r3jvyfLSYvLafP_QMPKXt4iHqghoo7_IAW9QNXW2D6tGQPHqSTctK?width=1920&height=1080&cropmode=none
 draft: false
 toc: true
 ---
