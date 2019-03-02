@@ -1,0 +1,48 @@
+---
+title: combine rows in data frame containing NA to make a complete row
+author: "Xin \U0001F493 Zhu"
+date: '2019-03-02'
+slug: combine-rows-containing-NA-data-frame-complete-rows
+bibliography:
+  - miscellaneous.bib
+link-citations: true
+categories:
+  - programming
+tags:
+  - R
+  - Rmarkdown
+  - data-wrangling
+images: ~
+draft: yes
+---
+
+
+
+<p>Sometimes we want to combine rows with overlapping information but separated in different rows, which is really annoying for downstream analysis. I couldn’t come up with an elegant solution until finding an answer on <a href="https://stackoverflow.com/a/47563618/10538503">stackoverflow</a><span class="citation">(T <a href="#ref-combine-row-to-make-complete-row">2017</a>)</span>. To prevent me from struggling to find the answer again, I decide to make a note here.</p>
+<p>Below is the minimal example.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code>df &lt;- data.frame(A = c(1,1,2,2,2),
+                 B = c(NA,2,NA,4,4),
+                 C = c(3,NA,NA,5,NA),
+                 D = c(NA,2,3,NA,NA),
+                 E = c(5,NA,NA,4,4))
+df</code></pre>
+<pre><code>##   A  B  C  D  E
+## 1 1 NA  3 NA  5
+## 2 1  2 NA  2 NA
+## 3 2 NA NA  3 NA
+## 4 2  4  5 NA  4
+## 5 2  4 NA NA  4</code></pre>
+<p>We use <code>na.omit</code> and <code>unique</code> to create a <code>coalesce</code> and then <code>summerize_all</code> the data for each column to merge rows.</p>
+<pre class="r"><code>df %&gt;% group_by(A) %&gt;% summarise_all(list( ~ na.omit(unique(.))) )</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##       A     B     C     D     E
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2     3     2     5
+## 2     2     4     5     3     4</code></pre>
+<p>Now we’re done.</p>
+<div id="refs" class="references">
+<div id="ref-combine-row-to-make-complete-row">
+<p>T, Jerry. 2017. “Combine Rows in Data Frame Containing Na to Make Complete Row.” <em>Stack Overflow</em>. Stack Overflow. <a href="https://stackoverflow.com/a/47563618/10538503">https://stackoverflow.com/a/47563618/10538503</a>.</p>
+</div>
+</div>

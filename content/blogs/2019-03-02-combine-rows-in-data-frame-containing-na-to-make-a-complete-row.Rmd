@@ -1,0 +1,41 @@
+---
+title: combine rows in data frame containing NA to make a complete row
+author: "Xin \U0001F493 Zhu"
+date: '2019-03-02'
+slug: combine-rows-containing-NA-data-frame-complete-rows
+bibliography:
+  - miscellaneous.bib
+link-citations: true
+categories:
+  - programming
+tags:
+  - R
+  - Rmarkdown
+  - data-wrangling
+images: ~
+draft: yes
+---
+
+Sometimes we want to combine rows with overlapping information but separated in different rows, which is really annoying for downstream analysis. I couldn't come up with an elegant solution until finding an answer on [stackoverflow](https://stackoverflow.com/a/47563618/10538503)[@combine-row-to-make-complete-row]. To prevent me from struggling to find the answer again, I decide to make a note here. 
+
+Below is the minimal example. 
+
+```{r message=FALSE, warning=FALSE, results="hide"}
+library(tidyverse)
+```
+
+```{r example-data}
+df <- data.frame(A = c(1,1,2,2,2),
+                 B = c(NA,2,NA,4,4),
+                 C = c(3,NA,NA,5,NA),
+                 D = c(NA,2,3,NA,NA),
+                 E = c(5,NA,NA,4,4))
+df
+```
+
+We use `na.omit` and `unique` to create a `coalesce` and then `summerize_all` the data for each column to merge rows. 
+```{r make-it-a-complete-row}
+df %>% group_by(A) %>% summarise_all(list( ~ na.omit(unique(.))) )
+```
+
+Now we're done. 
