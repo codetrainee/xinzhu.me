@@ -1,0 +1,59 @@
+---
+title: fancy ggplot2 axis format
+author: Xin 💓 Zhu
+date: '2019-03-02'
+slug: fancy-ggplot2-axis-format
+categories:
+  - programming
+tags:
+  - ggplot2
+  - R
+  - Rmarkdown
+images: ~
+draft: no
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Prerequisite
+
+```{r knitr-options}
+knitr::opts_chunk$set(fig.dim = c(8, 8),
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r results="hide"}
+library(tidyverse)
+```
+
+## Fancy the axis output
+
+We take the `diamonds` dataset from `ggplot2` package as an example. The default `scales::scientific_format()` generates a little ugly axis format that is not nice to human instinct, such as '1.5e+04'.
+
+```{r default-scales-scientific-axis-format}
+ggplot(diamonds, aes(color, price)) + 
+  geom_point() + 
+  facet_grid(cut ~ clarity) + 
+  scale_y_continuous(labels = scales::scientific_format())
+```
+
+The format '1.5 x 10^4^' is preferable for us, at least for me. To achieve this, we first create a `fancy_axis` function. 
+
+```{r fancy-axis-format}
+fancy_axis <- function(x) {
+    ifelse(x == 0, "0", parse(text = gsub("[+]", "", gsub("e", " %*% 10^", scales::scientific_format()(x)))))
+}
+```
+
+Now we just need specify the `scale_y_continuous(labels = fancy_axis)` and get a pretty nicer look. 
+
+```{r nicer-scales-scientific-axis-format}
+ggplot(diamonds, aes(color, price)) + 
+  geom_point() + 
+  facet_grid(cut ~ clarity) + 
+  scale_y_continuous(labels = fancy_axis)
+```
+
+

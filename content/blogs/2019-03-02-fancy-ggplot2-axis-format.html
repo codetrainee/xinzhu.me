@@ -1,0 +1,52 @@
+---
+title: fancy ggplot2 axis format
+author: Xin 💓 Zhu
+date: '2019-03-02'
+slug: fancy-ggplot2-axis-format
+categories:
+  - programming
+tags:
+  - ggplot2
+  - R
+  - Rmarkdown
+images: ~
+draft: no
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#prerequisite">Prerequisite</a></li>
+<li><a href="#fancy-the-axis-output">Fancy the axis output</a></li>
+</ul>
+</div>
+
+<div id="prerequisite" class="section level2">
+<h2>Prerequisite</h2>
+<pre class="r"><code>knitr::opts_chunk$set(fig.dim = c(8, 8),
+                      message = FALSE,
+                      warning = FALSE)</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+</div>
+<div id="fancy-the-axis-output" class="section level2">
+<h2>Fancy the axis output</h2>
+<p>We take the <code>diamonds</code> dataset from <code>ggplot2</code> package as an example. The default <code>scales::scientific_format()</code> generates a little ugly axis format that is not nice to human instinct, such as ‘1.5e+04’.</p>
+<pre class="r"><code>ggplot(diamonds, aes(color, price)) + 
+  geom_point() + 
+  facet_grid(cut ~ clarity) + 
+  scale_y_continuous(labels = scales::scientific_format())</code></pre>
+<p><img src="/blogs/2019-03-02-fancy-ggplot2-axis-format_files/figure-html/default-scales-scientific-axis-format-1.png" width="768" /></p>
+<p>The format ‘1.5 x 10<sup>4</sup>’ is preferable for us, at least for me. To achieve this, we first create a <code>fancy_axis</code> function.</p>
+<pre class="r"><code>fancy_axis &lt;- function(x) {
+    ifelse(x == 0, &quot;0&quot;, parse(text = gsub(&quot;[+]&quot;, &quot;&quot;, gsub(&quot;e&quot;, &quot; %*% 10^&quot;, scales::scientific_format()(x)))))
+}</code></pre>
+<p>Now we just need specify the <code>scale_y_continuous(labels = fancy_axis)</code> and get a pretty nicer look.</p>
+<pre class="r"><code>ggplot(diamonds, aes(color, price)) + 
+  geom_point() + 
+  facet_grid(cut ~ clarity) + 
+  scale_y_continuous(labels = fancy_axis)</code></pre>
+<p><img src="/blogs/2019-03-02-fancy-ggplot2-axis-format_files/figure-html/nicer-scales-scientific-axis-format-1.png" width="768" /></p>
+</div>
