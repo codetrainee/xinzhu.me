@@ -13,7 +13,7 @@ tags:
   - Rmarkdown
   - data-wrangling
 images: ~
-draft: yes
+draft: no
 ---
 
 Sometimes we want to combine rows with overlapping information but separated in different rows, which is really annoying for downstream analysis. I couldn't come up with an elegant solution until finding an answer on [stackoverflow](https://stackoverflow.com/a/47563618/10538503)[@combine-row-to-make-complete-row]. To prevent me from struggling to find the answer again, I decide to make a note here. 
