@@ -1,9 +1,19 @@
+{{ define "head" }}
+	{{ if .Params.featuredImg -}}
+	<style>.bg-img {background-image: url('{{.Params.featuredImg}}');}</style>
+	{{- else if .Params.images -}}
+		{{- range first 1 .Params.images -}}
+		<style>.bg-img {background-image: url('{{. | absURL}}');}</style>
+		{{- end -}}
+	{{- end -}}
+{{ end }}
+
 {{ define "header" }}
 {{ partial "header.html" . }}
 {{ end }}
 
 {{ define "main" }}
-	{{- if (or .Params.featuredImg .Params.images .Site.Params.bgImg .Site.Params.images ) }}
+	{{- if (or .Params.images .Params.featuredImg) }}
 	<div class="bg-img"></div>
 	{{- end }}
 	<main class="site-main section-inner animated fadeIn faster">
@@ -22,14 +32,6 @@
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
 					{{- range . -}}
 					<span class="tag"><a href="{{ "tags/" | absURL }}{{ . | urlize }}">{{.}}</a></span>
-					{{- end }}
-				</p>
-				{{- end}}
-				{{- with .Params.categories }}
-				<p>
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-category meta-icon"><path d="M5.94,0.76c0,0-2.69,0.29-2.71,2.8s0.07,19.19,0.07,19.19l5.65-7.51l5.73,7.51V9.83h6.08V3.6 c0,0-0.24-2.84-3.13-2.84C14.74,0.75,5.94,0.76,5.94,0.76z"></path><path d="M14.66,8.02V3.34c0,0,0.19-2.62,2.98-2.59c2.92,0.03,3.13,2.84,3.13,2.84v6.23h-6.08L14.66,8.02z"></path></svg>
-					{{- range . -}}
-					<span class="categories"><a href="{{ "categories/" | absURL }}{{ . | urlize }}">{{.}}</a></span>
 					{{- end }}
 				</p>
 				{{- end }}
@@ -61,7 +63,6 @@
 		<div id="comments" class="thin">
 		{{- partial "comments.html" . -}}
 		</div>
-		<script src="{{ "js/rmarkdown.js" | absURL }}"></script>
 	</main>
 {{ end }}
 

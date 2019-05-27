@@ -29,7 +29,7 @@ Run this command from the root of your Hugo directory:
 $ git clone https://github.com/Track3/hermit.git themes/hermit
 ```
 
-Or, if your Hugo site is already in git, you can include this repository as a [git submodule](https://git-scm.com/book/de/v1/Git-Tools-Submodule). This makes it easier to update this theme. For this you need to run:
+Or, if your Hugo site is already in git, you can include this repository as a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). This makes it easier to update this theme. For this you need to run:
 
 ```bash
 $ git submodule add https://github.com/Track3/hermit.git themes/hermit
@@ -61,17 +61,11 @@ Use [RealFaviconGenerator](https://realfavicongenerator.net/) to generate these 
 
 The following icons are supported, please make sure the `name` filed is exactly one of these:
 
-* codepen
-* facebook
-* github
-* gitlab
-* instagram
-* linkedin
-* slack
-* telegram
-* twitter
-* youtube
-* email
+| name            |             |            |           |
+| --------------- | ----------- | ---------- | --------- |
+| `email`         | `codepen`   | `facebook` | `github`  |
+| `gitlab`        | `instagram` | `linkedin` | `slack`   |
+| `stackoverflow` | `telegram`  | `twitter`  | `youtube` |
 
 If that's not enough, you can see [Overriding templates](#overriding-templates) section.
 
@@ -95,14 +89,16 @@ We only have built-in support for Disqus at the moment, if that doesn't fit your
 ##### Add custom analytics
 If you prefer to use different analytics system other than google analytics, then add them inside `layouts/partials/analytics.html`.
 
-#### Add custom css
+#### Customize CSS
 
-For adding custom css to the theme, you need to assign an array of references in `config.toml` like following:
+If you'd like to customize theme color or fonts, you can simply override `assets/scss/_predefined.scss`, by simply copy it to site's root (keep the same relative path) then edit those variables. But keep in mind, you'll need **Hugo extended version** which has the ability to rebuild SCSS. You don't have to use extended version in production but in this case it's necessary to make sure the `resources` folder is committed and "up to date" (by running `hugo` or `hugo server` locally using the extended version). But anyway, always use the extended version if you can.
+
+For adding other custom CSS to the theme, you can assign an array of references in `config.toml` like following:
 ```
 [params]
   customCSS = ["css/foo.css", "css/bar.css"]
 ```
-You can reference as many stylesheets as you want. Their paths need to be relative to the `static` folder or they can be network resources.
+You may reference as many stylesheets as you want. Their paths need to be relative to the `static` folder or it can be a full URL for external resources.
 
 #### Code injection
 
